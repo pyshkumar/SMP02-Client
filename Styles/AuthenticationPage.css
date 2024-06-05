@@ -1,0 +1,105 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 100px;
+  background-color: #009999;
+  height: 100vh;
+}
+
+.portal-heading {
+  font-size: 2rem;
+  color: white;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.modal-heading {
+  font-size: 1.34rem;
+  margin-bottom: 1.5rem;
+}
+
+.input-container {
+  margin-bottom: 1rem;
+}
+
+.input-container label {
+  text-align: left;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: smaller;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.input-with-icon {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: #fff;
+}
+
+.input-with-icon i {
+  margin-right: 0.5rem;
+  border-right: 1px solid #ccc;
+  padding-right: 0.5rem;
+}
+
+.input-with-icon input {
+  border: none;
+  outline: none;
+  flex: 1;
+  padding: 0.5rem;
+}
+
+#passwordIcon {
+  cursor: pointer;
+}
+
+#passwordIcon:hover {
+  opacity: 67%;
+}
+
+button#submit {
+  background-color: #009999;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button#submit:hover {
+  opacity: 67%;
+}
+
+.prevent-select {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
