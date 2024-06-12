@@ -30,10 +30,6 @@ const infoNotify = (message) => {
   }).showToast();
 };
 
-const validateID = async (bodyData) => {
-  return utils.postJson("checkEmployeeId", bodyData);
-};
-
 const errorNotifying = (message) => {
   errorNotify(`Error : ${message}`);
 };
@@ -42,14 +38,4 @@ const infoNotifying = (message) => {
   infoNotify(message);
 };
 
-const checkDB = async () => {
-  try {
-    const response = await utils.getJson("checkDB");
-    const data = await response.json();
-    return data.numRecords;
-  } catch (error) {
-    console.error("Error checking database:", error);
-    return 0;
-  }
-};
-export { validateID, errorNotifying, infoNotifying };
+export { errorNotifying, infoNotifying };

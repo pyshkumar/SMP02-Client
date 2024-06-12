@@ -2,3 +2,11 @@ body {
   height: 100%;
   overflow: hidden;
 }
+
+#auth-page {
+  display: block;
+}
+
+#grid-base {
+  display: block;
+}

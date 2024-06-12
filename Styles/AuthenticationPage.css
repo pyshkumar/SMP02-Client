@@ -37,6 +37,7 @@
 
 .input-container {
   margin-bottom: 1rem;
+  height: 92px;
 }
 
 .input-container label {
@@ -44,7 +45,7 @@
   display: block;
   font-weight: bold;
   margin-bottom: 0.5rem;
-  font-size: smaller;
+  font-size: 0.95rem;
 }
 
 .input-container input {
@@ -102,4 +103,21 @@ button#submit:hover {
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.validationErrorMessage {
+  /* display: none; */
+  color: red;
+}
+
+#usernameValidationErrorMessage,
+#passwordValidationErrorMessage {
+  display: none;
+  font-size: 0.8rem;
+  text-align: left;
+  padding-top: 3px;
+}
+
+#loginButtonIcon {
+  margin-right: 10px;
 }

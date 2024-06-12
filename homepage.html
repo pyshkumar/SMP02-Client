@@ -20,6 +20,21 @@
     <script src="index.mjs" type="module"></script>
   </head>
   <body>
-    <authentication-page id="auth-page"></authentication-page>
+    <grid-base
+      main-heading="Data Management"
+      columns='[" Employee ID  ",
+    "first Name",
+    "last Name",
+    "email",
+    "contact Number",
+    "position"]'
+      ,
+      sortFeature="true"
+      ,
+      paginationFeature="true"
+      ,
+      user="admin"
+      id="gridBase-page"
+    ></grid-base>
   </body>
 </html>

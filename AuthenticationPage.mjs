@@ -1,4 +1,5 @@
-import utils from "./utility.mjs";
+import * as utils from "./utility.mjs";
+import * as services from "./Services.mjs";
 
 const authenticationPageTemplate = document.createElement("div");
 authenticationPageTemplate.id = "authenticationPageTemplate";
@@ -14,6 +15,7 @@ authenticationPageTemplate.innerHTML = `
     <i class="fa-solid fa-user"></i>
     <input type="text" id="username" name="username" />
   </div>
+  <p id="usernameValidationErrorMessage" class="validationErrorMessage">Please input your Username</p>  
   </div>
   <div class="input-container">
     <label for="password">Password</label>
@@ -21,8 +23,9 @@ authenticationPageTemplate.innerHTML = `
     <i class="fa-solid fa-eye-slash" id="passwordIcon"></i>
     <input type="password" id="password" name="password" />
   </div>  
+  <p id="passwordValidationErrorMessage" class="validationErrorMessage">Please input Password</p> 
   </div>
-  <button id="submit">Login</button>
+  <button id="submit"><i class="fa-solid fa-circle-notch" id="loginButtonIcon"></i>Login</button>
 </div>
 </div>`;
 
@@ -71,20 +74,123 @@ class authenticationPage extends HTMLElement {
 
   loginCredentials() {
     try {
+      const user = this.inputFieldsLoginCredentials();
+
+      if (!this.validateCredentials()) return;
+      console.log(user);
+      this.authenticationCall(user);
+
+      setTimeout(() => this.clearInputFields(), 1500);
+      // this.clearInputFields();
+
+      // this.dispatchEvent(
+      //   new CustomEvent("authenticated", { bubbles: true, composed: true })
+      // );
+    } catch (error) {
+      console.log("Error", error);
+      services.errorNotifying("Error in fetching credentials");
+      setTimeout(() => this.clearInputFields(), 1500);
+    }
+  }
+
+  clearInputFields() {
+    try {
+      this.authElement.querySelector("#username").value = "";
+      this.authElement.querySelector("#password").value = "";
+    } catch (error) {
+      console.log("Error", error);
+    }
+  }
+
+  validateCredentials() {
+    try {
+      const user = this.inputFieldsLoginCredentials();
+      const usernameVEM = this.authElement.querySelector(
+        "#usernameValidationErrorMessage"
+      );
+      const passwordVEM = this.authElement.querySelector(
+        "#passwordValidationErrorMessage"
+      );
+
+      if (user.username == "") {
+        usernameVEM.style.display = "block";
+      }
+
+      if (user.password == "") {
+        passwordVEM.style.display = "block";
+      }
+
+      if (user.username == "" || user.password == "") {
+        this.checkValidationMessageValidity();
+        return false;
+      }
+
+      this.checkValidationMessageValidity();
+
+      return true;
+    } catch (error) {
+      console.log("Error", error);
+      services.errorNotifying("Credentials validation check");
+    } finally {
+    }
+  }
+
+  checkValidationMessageValidity() {
+    try {
+      const user = this.inputFieldsLoginCredentials();
+
+      const usernameVEM = this.authElement.querySelector(
+        "#usernameValidationErrorMessage"
+      );
+      const passwordVEM = this.authElement.querySelector(
+        "#passwordValidationErrorMessage"
+      );
+
+      if (user.username != "") {
+        usernameVEM.style.display = "none";
+      }
+
+      if (user.password != "") {
+        passwordVEM.style.display = "none";
+      }
+    } catch (error) {
+      console.log("Error", error);
+    }
+  }
+
+  async authenticationCall(user) {
+    try {
+      const response = await utils.postJson("signin", user);
+      let data = await response.json();
+      if (data.exists) {
+        services.infoNotifying("successful authentication check");
+        // this.dispatchEvent(
+        //   new CustomEvent("authenticated", { bubbles: true, composed: true })
+        // );
+        window.location.href = "homepage.html";
+      } else {
+        services.errorNotifying(
+          "Authentication failed. Please check your credentials"
+        );
+      }
+    } catch (error) {
+      console.log("Error", error);
+      services.errorNotifying("Error in authenticating credentials");
+    }
+  }
+
+  inputFieldsLoginCredentials() {
+    try {
       const user = {
         username: this.authElement.querySelector("#username").value,
         password: this.authElement.querySelector("#password").value,
       };
-      console.log(user);
+      return user;
     } catch (error) {
       console.log("Error", error);
-    } finally {
-      this.authElement.querySelector("#username").value = "";
-      this.authElement.querySelector("#password").value = "";
+      services.errorNotifying("Credentials input fields");
     }
   }
-
-  async authenticationCall() {}
 }
 
 customElements.define("authentication-page", authenticationPage);

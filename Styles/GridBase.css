@@ -1,0 +1,406 @@
+#gridBaseTemplate {
+  background-color: #f1c27d;
+  height: 100vh;
+}
+
+#mainHeadingContainer {
+  max-width: 1250px;
+  margin: 20px auto;
+}
+
+#mn-tb-con {
+  border-collapse: collapse;
+  border-style: outset;
+  border-color: black;
+}
+/* Change */
+#table-container {
+  overflow-x: auto;
+  height: 450px;
+}
+.permissibleScreen {
+  max-width: 1250px;
+  margin: 20px auto;
+}
+h1 {
+  text-align: center;
+  color: #333;
+}
+/* Tables styles */
+#employeeTable {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  /* border-style: outset; */
+  /* border-color: black;
+    border-top: hidden !important;
+    border-bottom: hidden !important; */
+}
+
+th,
+td {
+  padding: 12px;
+  border-style: solid;
+  border-color: #8d5524;
+  border-width: 2px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #c68642;
+}
+
+#employeeTable thead {
+  position: sticky;
+  top: 0;
+  background-color: #c68642;
+}
+
+#pagination-box {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1px;
+  position: sticky;
+  bottom: 0;
+  background-color: #c68642;
+  padding: 10px;
+  border-collapse: collapse;
+  /* border-style: outset;
+    border-color: black;
+    border-top: hidden !important; */
+}
+
+#pagination-box .page-info {
+  font-size: 16px;
+}
+
+#pagination-box .page-size select {
+  padding: 5px;
+}
+
+#pagination-box .pagination-buttons button {
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #f1c27d;
+}
+
+#pagination-box .pagination-buttons button i {
+  margin: 0 5px;
+}
+
+/* tbody tr:hover {
+    background-color: #ffdbac;
+  } */
+
+/* icon style */
+
+.icond {
+  color: #1b1b1b;
+  padding: 2px;
+}
+
+.icond:hover {
+  cursor: pointer;
+}
+
+#mH-buttons-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #c68642;
+  color: white;
+  padding: 10px 15px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #1b1b1b;
+}
+
+#_employeeId {
+  width: 100px;
+}
+#_firstName {
+  width: 95px;
+}
+#_lastName {
+  width: 99px;
+}
+#_position {
+  width: 109px;
+}
+#_contactNumber {
+  width: 127px;
+}
+#_email {
+  width: 115px;
+}
+
+.man-star {
+  color: red;
+}
+
+#nr-msg {
+  display: none;
+  font-size: 3rem;
+  color: red;
+}
+
+/* Create Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 60px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 3px solid black;
+  width: 24%;
+  margin-top: 0.5px;
+}
+
+.createModalFields {
+  width: 355px;
+  height: 100%;
+  align-items: center;
+}
+
+.createModalitems {
+  position: relative;
+  right: 2px;
+  margin: 2px;
+}
+
+.createModalTable {
+  width: 100%;
+  border-collapse: collapse;
+  border-style: none;
+  border-color: black;
+}
+.createModalTable td {
+  padding: 5px;
+  border-style: none;
+  border-color: #8d5524;
+  border-width: 4px;
+  text-align: left;
+  align-content: baseline;
+  height: 41px;
+}
+
+.createModalTable input {
+  width: 140px;
+}
+
+#cM-eid-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+
+#cM-fn-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+
+#cM-em-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+
+#cM-cn-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+.createModalButtons {
+  padding-top: 10px;
+  padding-left: 57px;
+}
+
+.createModalHeading {
+  padding-left: 100px;
+}
+
+/* Update Modal styles */
+#updateModal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 60px;
+}
+
+#updateModal .modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 3px solid black;
+  width: 24%;
+  margin-top: 0.5px;
+}
+
+#updateModal .createModalFields {
+  width: 355px;
+  height: 100%;
+  align-items: center;
+}
+
+#updateModal .createModalitems {
+  position: relative;
+  right: 2px;
+  margin: 2px;
+}
+
+.updateModalTable {
+  width: 100%;
+  border-collapse: collapse;
+  border-style: none;
+  border-color: black;
+}
+
+.updateModalTable td {
+  padding: 5px;
+  border-style: none;
+  border-color: #8d5524;
+  border-width: 4px;
+  text-align: left;
+  align-content: baseline;
+  height: 41px;
+}
+
+.updateModalTable input {
+  width: 140px;
+}
+
+.updateModalButtons {
+  padding-top: 10px;
+  padding-left: 57px;
+}
+
+.updateModalHeading {
+  padding-left: 90px;
+}
+
+#uM-eid-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+
+#uM-fn-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+
+#uM-em-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+
+#uM-cn-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+/* Delete Modal styles */
+#deleteModal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 60px;
+}
+
+#deleteModal .modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 3px solid black;
+  width: 30%;
+}
+
+#deleteModal p {
+  padding-left: 10px;
+}
+
+#deleteModal .createModalitems {
+  position: relative;
+  right: 2px;
+  margin: 2px;
+}
+
+.deleteModalButtons {
+  padding-top: 10px;
+  padding-left: 80px;
+}
+
+.deleteModalHeading {
+  padding-left: 120px;
+}
+
+/* Action column icons styles */
+.editIcon {
+  cursor: pointer;
+  padding: 3px;
+  margin-top: 2px;
+  background-color: #ffdbac;
+  border-radius: 2px;
+  margin-right: 2px;
+  border-collapse: collapse;
+  border-style: outset;
+  border-color: black;
+}
+
+.editIcon:hover,
+.deleteIcon:hover {
+  cursor: pointer;
+  color: grey;
+}
+
+.deleteIcon {
+  cursor: pointer;
+  padding: 3px;
+  margin-top: 5px;
+  width: 16px;
+  background-color: #ffdbac;
+  border-radius: 2px;
+  margin-left: 2xp;
+  border-collapse: collapse;
+  border-style: outset;
+  border-color: black;
+}
+
+.prevent-select {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
