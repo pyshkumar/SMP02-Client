@@ -3,7 +3,7 @@ import * as utils from "./utility.mjs";
 const errorNotify = (message) => {
   Toastify({
     text: message,
-    duration: 1500,
+    duration: 4000,
     newWindow: false,
     close: true,
     gravity: "top",
@@ -18,7 +18,7 @@ const errorNotify = (message) => {
 const infoNotify = (message) => {
   Toastify({
     text: message,
-    duration: 1700,
+    duration: 4000,
     newWindow: true,
     close: true,
     gravity: "top",
@@ -31,11 +31,15 @@ const infoNotify = (message) => {
 };
 
 const errorNotifying = (message) => {
-  errorNotify(`Error : ${message}`);
+  errorNotify(message);
 };
 
 const infoNotifying = (message) => {
   infoNotify(message);
 };
 
-export { errorNotifying, infoNotifying };
+const validateID = async (bodyData) => {
+  return utils.postJson("checkJobId", bodyData);
+};
+
+export { errorNotifying, infoNotifying, validateID };

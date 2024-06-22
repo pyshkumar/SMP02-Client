@@ -1,25 +1,36 @@
-import * as utils from "./utility.mjs";
-import * as services from "./Services.mjs";
+import * as utils from "../../core/utility.mjs";
+import * as services from "../../core/services.mjs";
 
 const gridBaseTemplate = document.createElement("div");
 gridBaseTemplate.id = "gridBaseTemplate";
 gridBaseTemplate.innerHTML = `
-<link rel="stylesheet" href="./Styles/GridBase.css" />
+<link rel="stylesheet" href="../../Styles/GridBase.css" />
     <link
       rel="stylesheet"
       type="text/css"
       href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
     />
+    
+    <div class="container ">
+    <div class="navbar">
+    
+    <i class="fa-solid fa-power-off nav-menuIcon" id="logout-link"><span class="tooltiptext prevent-select">Log Out</span></i>
+    
+
+    <p id="nav-heading">Job Portal</p>
+    </div>
+    </div>
+    
     <div id="mainHeadingContainer" class="permissibleScreen">
     <h1 id="mainHeading"></h1>
     <div id="mH-buttons-container">
-      <button id="createBtn">Add Record 
+      <button id="createBtn">Add Job Record 
 
       </button>
     </div>
   </div>
   <div id="nr-msg-container" class="permissibleScreen">
-    <h1 id="nr-msg">No Records</h1>
+    <h1 id="nr-msg">No Job Opening</h1>
   </div>
   <div id="mn-tb-con" class="permissibleScreen">
     <div id="table-container">
@@ -68,8 +79,8 @@ gridBaseTemplate.innerHTML = `
       <table class="createModalTable" id="createModalTable">
       <tr>
       <td>
-        <label for="CreateModalEmployeeId" class="createModalitems"
-          >Employee ID <span class="man-star">*</span></label
+        <label for="CreateModalJobId" class="createModalitems"
+          >Job ID <span class="man-star">*</span></label
         >
       </td>
 
@@ -77,89 +88,89 @@ gridBaseTemplate.innerHTML = `
         <input
           class="createModalitems"
           type="number"
-          id="CreateModalEmployeeId"
-          name="CreateModalEmployeeId"
+          id="CreateModalJobId"
+          name="CreateModalJobId"
           required
         />
         <br />
-        <small id="cM-eid-i-evm">Enter the Employee ID</small>
+        <small id="cM-eid-i-evm">Enter the Job ID</small>
       </td>
     </tr>
     <tr>
       <td>
-        <label for="CreateModalFirstName" class="createModalitems"
-          >First Name <span class="man-star">*</span></label
+        <label for="CreateModalJobTitle" class="createModalitems"
+          >Job Title <span class="man-star">*</span></label
         >
       </td>
       <td>
         <input
           class="createModalitems"
           type="text"
-          id="CreateModalFirstName"
-          name="CreateModalFirstName"
+          id="CreateModalJobTitle"
+          name="CreateModalJobTitle"
           required
         /><br />
-        <small id="cM-fn-i-evm">Enter the First Name</small>
+        <small id="cM-fn-i-evm">Enter the Job Title</small>
       </td>
     </tr>
     <tr>
       <td>
-        <label for="CreateModalLastName" class="createModalitems"
-          >Last Name
+        <label for="CreateModalLocation" class="createModalitems"
+          >Location
         </label>
       </td>
       <td>
         <input
           type="text"
-          id="CreateModalLastName"
-          name="CreateModalLastName"
+          id="CreateModalLocation"
+          name="CreateModalLocation"
           class="createModalitems"
         />
       </td>
     </tr>
     <tr>
       <td>
-        <label for="CreateModalEmail" class="createModalitems"
-          >Email
-        </label>
-      </td>
-      <td>
-        <input
-          type="email"
-          id="CreateModalEmail"
-          name="CreateModalEmail"
-          class="createModalitems"
-        /><br />
-        <small id="cM-em-i-evm">Enter a valid email </small>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label for="CreateModalContactNumber" class="createModalitems"
-          >Contact Number
-        </label>
-      </td>
-      <td>
-        <input
-          type="number"
-          id="CreateModalContactNumber"
-          name="CreateModalContactNumber"
-          class="createModalitems"
-        /><br />
-        <small id="cM-cn-i-evm">Enter a valid Phone number</small>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label for="CreateModalPosition" class="createModalitems"
-          >Position
+        <label for="CreateModalExperienceLevel" class="createModalitems"
+          >Experience Level
         </label>
       </td>
       <td>
         <input
           type="text"
-          id="CreateModalPosition"
-          name="CreateModalPosition"
+          id="CreateModalExperienceLevel"
+          name="CreateModalExperienceLevel"
+          class="createModalitems"
+        /><br />
+        <small id="cM-em-i-evm">Enter a valid exp </small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="CreateModalContactPerson" class="createModalitems"
+          >Contact Person
+        </label>
+      </td>
+      <td>
+        <input
+          type="text"
+          id="CreateModalContactPerson"
+          name="CreateModalContactPerson"
+          class="createModalitems"
+        /><br />
+        <small id="cM-cn-i-evm">Enter a Contact Person</small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="CreateModalStatus" class="createModalitems"
+          >Status
+        </label>
+      </td>
+      <td>
+        <input
+          type="text"
+          id="CreateModalStatus"
+          name="CreateModalStatus"
           class="createModalitems"
         />
       </td>
@@ -184,100 +195,99 @@ gridBaseTemplate.innerHTML = `
       <table class="updateModalTable">
         <tr>
           <td>
-            <label for="UpdateModalEMPLOYEEID" class="createModalitems"
-              >Employee ID <span class="man-star">*</span></label
+            <label for="UpdateModalJobId" class="createModalitems"
+              >Job ID <span class="man-star">*</span></label
             >
           </td>
-          <td class="updateModalInput">
+          <td>
             <input
               class="createModalitems"
               type="number"
-              id="UpdateModalEMPLOYEEID"
-              name="UpdateModalEMPLOYEEID"
+              id="UpdateModalJobId"
+              name="UpdateModalJobId"
               required
               disabled
             /><br />
-            <small id="uM-eid-i-evm">Enter the Employee ID</small>
+            <small id="uM-eid-i-evm">Enter the Job ID</small>
           </td>
         </tr>
         <tr>
           <td>
-            <label for="UpdateModalFIRSTNAME" class="createModalitems"
-              >First Name <span class="man-star">*</span></label
+            <label for="UpdateModalJobTitle" class="createModalitems"
+              >Job Title <span class="man-star">*</span></label
             >
           </td>
           <td>
             <input
               class="createModalitems"
-              placeholder=""
               type="text"
-              id="UpdateModalFIRSTNAME"
-              name="UpdateModalFIRSTNAME"
+              id="UpdateModalJobTitle"
+              name="UpdateModalJobTitle"
               required
             /><br />
-            <small id="uM-fn-i-evm">Enter the First Name</small>
+            <small id="uM-fn-i-evm">Enter the Job Title</small>
           </td>
         </tr>
         <tr>
           <td>
-            <label for="UpdateModalLASTNAME" class="createModalitems"
-              >Last Name
+            <label for="UpdateModalLocation" class="createModalitems"
+              >Loacation
             </label>
           </td>
           <td>
             <input
               type="text"
-              id="UpdateModalLASTNAME"
-              name="UpdateModalLASTNAME"
+              id="UpdateModalLocation"
+              name="UpdateModalLocation"
               class="createModalitems"
             />
           </td>
         </tr>
         <tr>
           <td>
-            <label for="UpdateModalEMAIL" class="createModalitems"
-              >Email
-            </label>
-          </td>
-          <td>
-            <input
-              type="email"
-              id="UpdateModalEMAIL"
-              name="UpdateModalEMAIL"
-              class="createModalitems"
-            />
-            <br />
-            <small id="uM-em-i-evm">Enter a valid email</small>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="UpdateModalCONTACTNUMBER" class="createModalitems"
-              >Contact Number
-            </label>
-          </td>
-          <td>
-            <input
-              type="number"
-              id="UpdateModalCONTACTNUMBER"
-              name="UpdateModalCONTACTNUMBER"
-              class="createModalitems"
-            />
-            <br />
-            <small id="uM-cn-i-evm">Enter a valid Phone number</small>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="UpdateModalPOSITION" class="createModalitems"
-              >Position
+            <label for="UpdateModalExperienceLevel" class="createModalitems"
+              >Experience Level
             </label>
           </td>
           <td>
             <input
               type="text"
-              id="UpdateModalPOSITION"
-              name="UpdateModalPOSITION"
+              id="UpdateModalExperienceLevel"
+              name="UpdateModalExperienceLevel"
+              class="createModalitems"
+            />
+            <br />
+            <small id="uM-em-i-evm">Enter a valid exp</small>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="UpdateModalContactPerson" class="createModalitems"
+              >Contact Person
+            </label>
+          </td>
+          <td>
+            <input
+              type="text"
+              id="UpdateModalContactPerson"
+              name="UpdateModalContactPerson"
+              class="createModalitems"
+            />
+            <br />
+            <small id="uM-cn-i-evm">Enter a Contact Person</small>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="UpdateModalStatus" class="createModalitems"
+              >Status
+            </label>
+          </td>
+          <td>
+            <input
+              type="text"
+              id="UpdateModalStatus"
+              name="UpdateModalStatus"
               class="createModalitems"
             />
           </td>
@@ -302,6 +312,12 @@ gridBaseTemplate.innerHTML = `
   </div>
 </div>
 </div>
+<div id="descriptionModal" class="modal">
+  <div class="modal-content">
+    <span id="closeDescriptionModal" class="close">&times;</span>
+    <div id="descriptionContent"></div>
+  </div>
+</div>
 `;
 
 class GridBase extends HTMLElement {
@@ -313,23 +329,27 @@ class GridBase extends HTMLElement {
 
     const FAstyles = document.createElement("link");
     FAstyles.setAttribute("rel", "stylesheet");
-    FAstyles.setAttribute("href", "font-6/css/all.css");
+    FAstyles.setAttribute("href", "../../font-6/css/all.css");
     shadow.appendChild(FAstyles.cloneNode(true));
 
     this.gridElement = this.shadowRoot.getElementById("gridBaseTemplate");
     this.noRecordsMessageContainer = this.shadowRoot.getElementById("nr-msg");
     this.mainGridContainer = this.shadowRoot.getElementById("mn-tb-con");
     this.paginationBox = this.shadowRoot.getElementById("pagination-box");
+    const logoutLink = this.shadowRoot.getElementById("logout-link");
 
     this.mainGridContainer.style.display = "none";
-    this.noRecordsMessageContainer.style.display = "block";
+    this.noRecordsMessageContainer.style.display = "none";
 
     // Retrieved attributes
-    const mainHeading = this.getAttribute("main-heading") || "Data Management";
+    const mainHeading = this.getAttribute("main-heading") || "Job Info Portal";
     const columnHeadings = JSON.parse(this.getAttribute("columns")) || [];
     const sortFeature = this.getAttribute("sortFeature") || "false";
     const paginationFeature = this.getAttribute("paginationFeature") || "false";
-    const userType = this.getAttribute("user") || "regular";
+    const userType = sessionStorage.getItem("userType") || "regular";
+    // const userType2 = sessionStorage.getItem("userType");
+    // console.log("gridBase", userType2);
+    // console.log("gridBase", userType);
 
     this.employeeTableColumns = [];
     this.employeeTableColumnsLabels = [];
@@ -349,7 +369,10 @@ class GridBase extends HTMLElement {
     this.setColumnsHeading(columnHeadings);
     this.fetchDataAndPopulateTable();
     this.dataFetch();
-    this.testing();
+    // this.testing();
+
+    //header
+    logoutLink.addEventListener("click", () => this.logout());
 
     // Bind event listeners pagation
     this.shadowRoot
@@ -406,6 +429,16 @@ class GridBase extends HTMLElement {
     this.confirmDeleteBtn.addEventListener("click", async (event) =>
       this.submitDeleteModalFunc(event)
     );
+
+    //DescriptionModal
+
+    this.descriptionModalCloseBtn = this.shadowRoot.getElementById(
+      "closeDescriptionModal"
+    );
+
+    this.descriptionModalCloseBtn.addEventListener("click", () =>
+      this.closeDescriptionModal()
+    );
   }
 
   connectedCallback() {
@@ -417,9 +450,22 @@ class GridBase extends HTMLElement {
       name: "LASTNAME",
       order: "DESC",
     };
-    const response = await utils.postJson("employee/search", sortInfo);
+    const response = await utils.postJson("job/search", sortInfo);
     const data = await response.json();
     console.log(data);
+  }
+
+  // toggleMenuIcon() {
+  //   const dropdownMenu = this.shadowRoot.getElementById("dropdown-menu");
+
+  //   dropdownMenu.style.display =
+  //     dropdownMenu.style.display === "block" ? "none" : "block";
+  // }
+
+  logout() {
+    // Perform logout logic here
+    sessionStorage.clear();
+    window.location.href = "../../index.html";
   }
 
   setUserView() {
@@ -464,7 +510,7 @@ class GridBase extends HTMLElement {
         name: this.sortField,
         order: orderBy,
       };
-      const response = await utils.postJson("employee/search", sortInfo);
+      const response = await utils.postJson("job/search", sortInfo);
       let data = await response.json();
       // const response2 = await utils.getJson("checkDB");
       // const numRecordsData = await response2.json();
@@ -491,7 +537,7 @@ class GridBase extends HTMLElement {
         name: this.sortField,
         order: orderBy,
       };
-      const response = await utils.postJson("employee/search", sortInfo);
+      const response = await utils.postJson("job/search", sortInfo);
       const data = await response.json();
       this.data = data;
       this.oldData = [...data];
@@ -528,6 +574,7 @@ class GridBase extends HTMLElement {
     if (this.userClass === "admin") {
       var th = document.createElement("TH");
       th.id = "action_column";
+      // th.classList.add("plusIcon", "prevent-select", "fa-solid", "fa-plus");
       row.appendChild(th);
       tableHead.appendChild(row);
     }
@@ -567,6 +614,12 @@ class GridBase extends HTMLElement {
       this.employeeTableColumns.forEach((column) => {
         const cell = document.createElement("td");
         cell.textContent = employee[column];
+        if (column === "JOBID") {
+          cell.addEventListener("click", () =>
+            this.openDescriptionModal(employee)
+          );
+          cell.classList.add("descCell");
+        }
         row.appendChild(cell);
       });
 
@@ -580,7 +633,7 @@ class GridBase extends HTMLElement {
       const deleteIcon = document.createElement("i");
       deleteIcon.classList.add("fa-solid", "fa-trash-can", "deleteIcon");
       deleteIcon.addEventListener("click", () =>
-        this.openDeleteModal(employee.EMPLOYEEID)
+        this.openDeleteModal(employee.JOBID)
       );
       actionCell.appendChild(deleteIcon);
 
@@ -610,7 +663,7 @@ class GridBase extends HTMLElement {
         name: this.sortField,
         order: orderBy,
       };
-      const response = await utils.postJson("employee/search", sortInfo);
+      const response = await utils.postJson("job/search", sortInfo);
       const data = await response.json();
       this.data = [...data];
       this.populateTable();
@@ -658,37 +711,43 @@ class GridBase extends HTMLElement {
   }
 
   validateData(formData, modalType) {
-    const { employeeId, firstName, lastName, email, contactNumber, position } =
-      formData;
+    const {
+      jobId,
+      jobTitle,
+      location,
+      experienceLevel,
+      contactPerson,
+      status,
+    } = formData;
 
-    let regex = new RegExp(
-      "^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,6})?$"
-    );
-    let result = regex.test(email);
+    // let regex = new RegExp(
+    //   "^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,6})?$"
+    // );
+    // let result = regex.test(email);
 
     const eid = this.shadowRoot.getElementById(`${modalType}-eid-i-evm`);
     const em = this.shadowRoot.getElementById(`${modalType}-em-i-evm`);
     const fn = this.shadowRoot.getElementById(`${modalType}-fn-i-evm`);
     const cn = this.shadowRoot.getElementById(`${modalType}-cn-i-evm`);
 
-    if (!employeeId) {
-      eid.innerText = "Enter the Employee ID";
+    if (!jobId) {
+      eid.innerText = "Enter the Job ID";
       eid.style.display = "block";
       return false;
     }
     eid.style.display = "none";
 
-    if (!firstName) {
+    if (!jobTitle) {
       fn.style.display = "block";
       return false;
     }
     fn.style.display = "none";
 
-    if (!result) {
-      em.style.display = "block";
-      return false;
-    }
-    em.style.display = "none";
+    // if (!result) {
+    //   em.style.display = "block";
+    //   return false;
+    // }
+    // em.style.display = "none";
 
     return true;
   }
@@ -741,7 +800,7 @@ class GridBase extends HTMLElement {
         name: this.sortField,
         order: orderBy,
       };
-      const response = await utils.postJson("employee/search", sortInfo);
+      const response = await utils.postJson("job/search", sortInfo);
       const data = await response.json();
       // const response = await utils.getJson("checkDB");
       // const numRecordsData = await response.json();
@@ -765,8 +824,6 @@ class GridBase extends HTMLElement {
     } catch (error) {
       console.log("Error:Page info updation error");
       throw error;
-    } finally {
-      console.log("hello");
     }
   }
 
@@ -827,15 +884,16 @@ class GridBase extends HTMLElement {
       // console.log("hello");
       // console.log(formData);
       const formData = {
-        employeeId: this.shadowRoot.getElementById("CreateModalEmployeeId")
-          .value,
-        firstName: this.shadowRoot.getElementById("CreateModalFirstName").value,
-        lastName: this.shadowRoot.getElementById("CreateModalLastName").value,
-        email: this.shadowRoot.getElementById("CreateModalEmail").value,
-        contactNumber: this.shadowRoot.getElementById(
-          "CreateModalContactNumber"
+        jobId: this.shadowRoot.getElementById("CreateModalJobId").value,
+        jobTitle: this.shadowRoot.getElementById("CreateModalJobTitle").value,
+        location: this.shadowRoot.getElementById("CreateModalLocation").value,
+        experienceLevel: this.shadowRoot.getElementById(
+          "CreateModalExperienceLevel"
         ).value,
-        position: this.shadowRoot.getElementById("CreateModalPosition").value,
+        contactPerson: this.shadowRoot.getElementById(
+          "CreateModalContactPerson"
+        ).value,
+        status: this.shadowRoot.getElementById("CreateModalStatus").value,
       };
 
       if (!this.validateData(formData, "cM")) {
@@ -846,29 +904,29 @@ class GridBase extends HTMLElement {
 
       const eid = this.shadowRoot.getElementById(`cM-eid-i-evm`);
       if (data.exists) {
-        eid.innerText = "The Employee ID already exists";
+        eid.innerText = "The Job ID already exists";
         eid.style.display = "block";
         console.log(eid.innerText);
         return;
       }
-      eid.innerText = "Enter the Employee ID";
+      eid.innerText = "Enter the Job ID";
       eid.style.display = "none";
-      const response = await utils.postJson("employee", formData);
+      const response = await utils.postJson("job", formData);
       if (response.ok) {
-        console.log("Employee Record added successfully");
-        services.infoNotifying("Employee Record added successfully");
+        console.log("Job Record added successfully");
+        services.infoNotifying("Job Record added successfully");
         await this.dataFetch();
         // this.fetchDataAndPopulateTable();
         this.populateTable();
-        -this.clearCreateModalInput();
+        this.clearCreateModalInput();
       } else {
-        console.error("Failed to add employee record");
-        services.errorNotifying("Failed to add employee record");
+        console.error("Failed to add job record");
+        services.errorNotifying("Failed to add job record");
         this.Createmodal.style.display = "none";
       }
     } catch (error) {
-      console.error("Failed to add employee record");
-      services.errorNotifying("Failed to add employee record");
+      console.error("Failed to add job record");
+      services.errorNotifying("Failed to add job record");
       this.clearCreateModalInput();
     }
   }
@@ -889,17 +947,16 @@ class GridBase extends HTMLElement {
   //Update Modal
 
   openUpdateModal(employee) {
-    this.shadowRoot.getElementById("UpdateModalEMPLOYEEID").value =
-      employee.EMPLOYEEID;
-    this.shadowRoot.getElementById("UpdateModalFIRSTNAME").value =
-      employee.FIRSTNAME;
-    this.shadowRoot.getElementById("UpdateModalLASTNAME").value =
-      employee.LASTNAME;
-    this.shadowRoot.getElementById("UpdateModalEMAIL").value = employee.EMAIL;
-    this.shadowRoot.getElementById("UpdateModalCONTACTNUMBER").value =
-      employee.CONTACTNUMBER;
-    this.shadowRoot.getElementById("UpdateModalPOSITION").value =
-      employee.POSITION;
+    this.shadowRoot.getElementById("UpdateModalJobId").value = employee.JOBID;
+    this.shadowRoot.getElementById("UpdateModalJobTitle").value =
+      employee.JOBTITLE;
+    this.shadowRoot.getElementById("UpdateModalLocation").value =
+      employee.LOCATION;
+    this.shadowRoot.getElementById("UpdateModalExperienceLevel").value =
+      employee.EXPERIENCELEVEL;
+    this.shadowRoot.getElementById("UpdateModalContactPerson").value =
+      employee.CONTACTPERSON;
+    this.shadowRoot.getElementById("UpdateModalStatus").value = employee.STATUS;
 
     this.updateModal.style.display = "block";
   }
@@ -908,38 +965,39 @@ class GridBase extends HTMLElement {
     event.preventDefault();
     try {
       const formData = {
-        employeeId: this.shadowRoot.getElementById("UpdateModalEMPLOYEEID")
-          .value,
-        firstName: this.shadowRoot.getElementById("UpdateModalFIRSTNAME").value,
-        lastName: this.shadowRoot.getElementById("UpdateModalLASTNAME").value,
-        email: this.shadowRoot.getElementById("UpdateModalEMAIL").value,
-        contactNumber: this.shadowRoot.getElementById(
-          "UpdateModalCONTACTNUMBER"
+        jobId: this.shadowRoot.getElementById("UpdateModalJobId").value,
+        jobTitle: this.shadowRoot.getElementById("UpdateModalJobTitle").value,
+        location: this.shadowRoot.getElementById("UpdateModalLocation").value,
+        experienceLevel: this.shadowRoot.getElementById(
+          "UpdateModalExperienceLevel"
         ).value,
-        position: this.shadowRoot.getElementById("UpdateModalPOSITION").value,
+        contactPerson: this.shadowRoot.getElementById(
+          "UpdateModalContactPerson"
+        ).value,
+        status: this.shadowRoot.getElementById("UpdateModalStatus").value,
       };
 
       if (!this.validateData(formData, "uM")) {
         return;
       }
 
-      const response = await utils.updateJson("employee", formData);
+      const response = await utils.updateJson("job", formData);
 
       if (response.ok) {
-        console.log("Employee record updated successfully");
-        services.infoNotifying("Employee record updated successfully");
+        console.log("Job record updated successfully");
+        services.infoNotifying("Job record updated successfully");
         this.updateModal.style.display = "none";
         await this.dataFetch();
         // this.fetchDataAndPopulateTable();
         this.populateTable();
       } else {
         console.error("Error updating data:", error);
-        services.errorNotifying("Failed to update employee record");
+        services.errorNotifying("Failed to update job record");
         this.updateModal.style.display = "none";
       }
     } catch (error) {
-      console.error("Failed to update employee record", error);
-      services.errorNotifying("Failed to update employee record");
+      console.error("Failed to update job record", error);
+      services.errorNotifying("Failed to update job record");
       this.updateModal.style.display = "none";
     }
   }
@@ -960,46 +1018,83 @@ class GridBase extends HTMLElement {
 
   //Delete Modal
 
-  openDeleteModal(employeeId) {
+  openDeleteModal(jobId) {
     this.shadowRoot.getElementById(
       "deleteModalMessage"
-    ).textContent = `Are you sure you want to proceed with the deletion of the employee record associated with Employee ID ${employeeId}`;
+    ).textContent = `Are you sure you want to proceed with the deletion of the Job record associated with Job ID ${jobId}`;
     this.deleteModal.style.display = "block";
   }
 
   async submitDeleteModalFunc(event) {
     event.preventDefault();
     try {
-      const employeeId = this.shadowRoot
+      const jobId = this.shadowRoot
         .getElementById("deleteModalMessage")
         .textContent.split(" ")
         .pop();
 
-      const response = await utils.deleteJson("employee", {
-        employeeId: employeeId,
+      const response = await utils.deleteJson("job", {
+        jobId: jobId,
       });
 
       if (response.ok) {
-        console.log("Employee record deleted successfully");
-        services.infoNotifying("Employee record deleted successfully");
+        console.log("Job record deleted successfully");
+        services.infoNotifying("Job record deleted successfully");
         this.deleteModal.style.display = "none";
         await this.dataFetch();
         // this.fetchDataAndPopulateTable();
         this.populateTable();
       } else {
-        console.error("Failed to delete employee record");
-        services.errorNotifying("Failed to delete employee record");
+        console.error("Failed to delete job record");
+        services.errorNotifying("Failed to delete job record");
         this.deleteModal.style.display = "none";
       }
     } catch (error) {
-      console.error("Failed to delete employee record");
-      services.errorNotifying("Failed to delete employee record");
+      console.error("Failed to delete job record");
+      services.errorNotifying("Failed to delete job record");
       this.deleteModal.style.display = "none";
     }
   }
 
   closeDeleteModel() {
     this.deleteModal.style.display = "none";
+  }
+
+  //Description Modal
+
+  openDescriptionModal(employee) {
+    const descriptionModal = this.shadowRoot.getElementById("descriptionModal");
+    const descriptionContent =
+      this.shadowRoot.getElementById("descriptionContent");
+
+    // Fetch description data based on employeeId (example implementation)
+    // const record = this.data.find(
+    //   (employee) => employee.EMPLOYEEID === employeeId
+    // );
+    console.log("openDesc", employee);
+    const record = employee;
+
+    // Populate modal content
+    if (record) {
+      descriptionContent.innerHTML = `
+        <h2>Job ID: ${record.JOBID}</h2>
+        <p>Job Title: ${record.JOBTITLE}</p>
+        <p>Location : ${record.LOCATION} 
+        <p>Experience Level: ${record.EXPERIENCELEVEL}</p>
+        <p>Contact Person: ${record.CONTACTPERSON}</p>
+        <p>Status: ${record.STATUS}</p>
+      `;
+
+      descriptionModal.style.display = "block";
+    }
+  }
+
+  closeDescriptionModal() {
+    const descriptionContent =
+      this.shadowRoot.getElementById("descriptionContent");
+    const descriptionModal = this.shadowRoot.getElementById("descriptionModal");
+    descriptionModal.style.display = "none";
+    descriptionContent.innerHTML = "";
   }
 }
 

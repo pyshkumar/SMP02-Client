@@ -11,7 +11,7 @@
   align-items: center;
   text-align: center;
   padding-top: 100px;
-  background-color: #009999;
+  background-color: #f1ac43;
   height: 100vh;
 }
 
@@ -86,7 +86,7 @@
 }
 
 button#submit {
-  background-color: #009999;
+  background-color: #f0b358;
   color: white;
   padding: 0.5rem 1rem;
   border: none;

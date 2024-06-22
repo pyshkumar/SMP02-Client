@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Employee Data</title>
-    <link rel="stylesheet" type="text/css" href="./Styles/index.css" />
+    <title>Zeloth</title>
+    <link rel="stylesheet" type="text/css" href="../../Styles/homepage.css" />
     <link
       rel="stylesheet"
       type="text/css"
@@ -12,29 +12,29 @@
       src="https://kit.fontawesome.com/8ea7e85408.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="font-6/css/all.css" />
+    <link rel="stylesheet" src="font-6/css/all.css" />
     <script
       type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/toastify-js"
     ></script>
-    <script src="index.mjs" type="module"></script>
+    <script src="homepage.mjs" type="module"></script>
   </head>
   <body>
     <grid-base
-      main-heading="Data Management"
-      columns='[" Employee ID  ",
-    "first Name",
-    "last Name",
-    "email",
-    "contact Number",
-    "position"]'
+      main-heading="Job Portal"
+      columns='["Job ID",
+      "Job Title",
+      "Location",
+      "Experience Level",
+      "Contact Person",
+      "Status"]'
       ,
       sortFeature="true"
       ,
       paginationFeature="true"
       ,
-      user="admin"
       id="gridBase-page"
     ></grid-base>
+    <loader-page id="loader" />
   </body>
 </html>

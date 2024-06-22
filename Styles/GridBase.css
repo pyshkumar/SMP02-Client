@@ -1,3 +1,7 @@
+* {
+  font-family: Arial, sans-serif;
+}
+
 #gridBaseTemplate {
   background-color: #f1c27d;
   height: 100vh;
@@ -17,6 +21,7 @@
 #table-container {
   overflow-x: auto;
   height: 450px;
+  background-color: #f1c27d;
 }
 .permissibleScreen {
   max-width: 1250px;
@@ -151,7 +156,8 @@ button:hover {
 #nr-msg {
   display: none;
   font-size: 3rem;
-  color: red;
+  font-weight: 200;
+  color: #8d5524;
 }
 
 /* Create Modal styles */
@@ -381,7 +387,8 @@ button:hover {
 }
 
 .editIcon:hover,
-.deleteIcon:hover {
+.deleteIcon:hover,
+.plusIcon:hover {
   cursor: pointer;
   color: grey;
 }
@@ -399,8 +406,103 @@ button:hover {
   border-color: black;
 }
 
+.plusIcon {
+  cursor: pointer;
+  padding: 3px;
+  margin-top: 20px;
+  width: 16px;
+  background-color: #ffdbac;
+  border-radius: 2px;
+  margin-left: 20xp;
+  border-collapse: collapse;
+  border-style: outset;
+  border-color: black;
+}
+
 .prevent-select {
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.container {
+  height: 8%;
+}
+.navbar {
+  background-color: #c68642;
+  height: 5%;
+  display: flex;
+  align-items: center;
+  padding: 2%;
+  box-sizing: border-box;
+  border-radius: 15px;
+}
+
+#nav-heading {
+  font-size: larger;
+  color: white;
+  text-align: right;
+}
+
+.nav-menuIcon {
+  width: 100px;
+  cursor: pointer;
+  flex: 1;
+  text-align: left;
+  color: white;
+  font-size: larger;
+}
+
+#mainHeading {
+  display: none;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.descCell {
+  cursor: "pointer";
+  color: #0070e0;
+}
+
+.descCell:hover {
+  opacity: 0.6;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  font-size: small;
+  font-weight: 200;
+  width: 55px;
+  background-color: white;
+  color: grey;
+  text-align: center;
+  border-radius: 2px;
+  padding: 5px 0;
+
+  position: absolute;
+  z-index: 1;
+  top: 35px;
+  left: 57px;
+
+  opacity: 0;
+  transition: opacity 0.9s;
+}
+
+#logout-link:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }

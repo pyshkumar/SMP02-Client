@@ -1,12 +1,17 @@
-import "./AuthenticationPage.mjs";
-import "./GridBase.mjs";
+import "./components/Login/AuthenticationPage.mjs";
+import "./components/Loader/Loader.mjs";
 
 document.addEventListener("DOMContentLoaded", () => {
   const authPage = document.getElementById("auth-page");
-  const gridPage = document.getElementById("grid-page");
+  const loader = document.getElementById("loader");
 
-  authPage.addEventListener("authenticated", () => {
-    authPage.style.display = "none";
-    gridPage.style.display = "block";
+  authPage.addEventListener("authenticated", (event) => {
+    authPage.style.opacity = 0.3;
+    loader.style.display = "block";
   });
+
+  setTimeout(() => {
+    authPage.style.opacity = 1;
+    loader.style.display = "none";
+  }, 5000);
 });

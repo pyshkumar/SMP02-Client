@@ -3,10 +3,6 @@ body {
   overflow: hidden;
 }
 
-/* #auth-page {
-  opacity: 0.3;
-} */
-
 #loader {
   display: none;
 }

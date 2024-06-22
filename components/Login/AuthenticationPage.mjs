@@ -1,5 +1,5 @@
-import * as utils from "./utility.mjs";
-import * as services from "./Services.mjs";
+import * as utils from "../../core/utility.mjs";
+import * as services from "../../core/services.mjs";
 
 const authenticationPageTemplate = document.createElement("div");
 authenticationPageTemplate.id = "authenticationPageTemplate";
@@ -162,12 +162,21 @@ class authenticationPage extends HTMLElement {
     try {
       const response = await utils.postJson("signin", user);
       let data = await response.json();
+
       if (data.exists) {
-        services.infoNotifying("successful authentication check");
-        // this.dispatchEvent(
-        //   new CustomEvent("authenticated", { bubbles: true, composed: true })
-        // );
-        window.location.href = "homepage.html";
+        sessionStorage.setItem("userType", data.userType);
+
+        this.dispatchEvent(
+          new CustomEvent("authenticated", {
+            bubbles: true,
+            composed: true,
+            detail: { userType: data.userType },
+          })
+        );
+
+        setTimeout(() => {
+          window.location.href = "components/Homepage/homepage.html";
+        }, 500);
       } else {
         services.errorNotifying(
           "Authentication failed. Please check your credentials"
