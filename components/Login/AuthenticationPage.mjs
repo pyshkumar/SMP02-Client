@@ -165,6 +165,7 @@ class authenticationPage extends HTMLElement {
 
       if (data.exists) {
         sessionStorage.setItem("userType", data.userType);
+        sessionStorage.setItem("userId", data.userId);
 
         this.dispatchEvent(
           new CustomEvent("authenticated", {

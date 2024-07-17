@@ -10,6 +10,85 @@
 #mainHeadingContainer {
   max-width: 1250px;
   margin: 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#mH-buttons-container {
+  width: 1000px;
+  height: 50px;
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 15px;
+}
+
+#statusfilter {
+  /* position: relative;
+  left: 400px; */
+  width: 100px;
+  text-align: right;
+}
+
+.statusFilterTickIcon {
+  padding-left: 2px !important;
+  color: blue;
+}
+
+#closedJobFilterTick,
+#openJobFilterTick {
+  visibility: hidden;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  /* top: 120px;
+  right: 100px; */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+#statusFilter-menuIcon {
+  color: black;
+  font-size: larger;
+  /* padding: 6px;
+  margin-top: 5px;
+  width: 16px;
+  background-color: #ffdbac;
+  border-radius: 2px;
+  border-collapse: collapse;
+  border-style: outset;
+  border-color: black; */
+}
+
+#statusFilter-menuIcon:hover {
+  cursor: pointer !important;
+  opacity: 0.5 !important;
+}
+
+#statusFilterDropdownHeading {
+  font-size: medium;
+  font-weight: 1000;
+  height: 10px;
+  text-align: left;
+  padding-left: 19.5px;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 20px !important;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.3s ease;
+  text-align: left !important;
+  font-size: medium !important;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f0b152;
 }
 
 #mn-tb-con {
@@ -20,13 +99,10 @@
 /* Change */
 #table-container {
   overflow-x: auto;
-  height: 450px;
   background-color: #f1c27d;
+  max-height: 350px;
 }
-.permissibleScreen {
-  max-width: 1250px;
-  margin: 20px auto;
-}
+
 h1 {
   text-align: center;
   color: #333;
@@ -110,11 +186,6 @@ th {
   cursor: pointer;
 }
 
-#mH-buttons-container {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
 button {
   background-color: #c68642;
   color: white;
@@ -151,6 +222,10 @@ button:hover {
 
 .man-star {
   color: red;
+}
+
+.createModalitems:disabled {
+  opacity: 0.98;
 }
 
 #nr-msg {
@@ -192,6 +267,7 @@ button:hover {
   position: relative;
   right: 2px;
   margin: 2px;
+  width: 148px;
 }
 
 .createModalTable {
@@ -334,6 +410,7 @@ button:hover {
   font-weight: bold;
 }
 /* Delete Modal styles */
+
 #deleteModal {
   display: none;
   position: fixed;
@@ -373,89 +450,7 @@ button:hover {
   padding-left: 120px;
 }
 
-/* Action column icons styles */
-.editIcon {
-  cursor: pointer;
-  padding: 3px;
-  margin-top: 2px;
-  background-color: #ffdbac;
-  border-radius: 2px;
-  margin-right: 2px;
-  border-collapse: collapse;
-  border-style: outset;
-  border-color: black;
-}
-
-.editIcon:hover,
-.deleteIcon:hover,
-.plusIcon:hover {
-  cursor: pointer;
-  color: grey;
-}
-
-.deleteIcon {
-  cursor: pointer;
-  padding: 3px;
-  margin-top: 5px;
-  width: 16px;
-  background-color: #ffdbac;
-  border-radius: 2px;
-  margin-left: 2xp;
-  border-collapse: collapse;
-  border-style: outset;
-  border-color: black;
-}
-
-.plusIcon {
-  cursor: pointer;
-  padding: 3px;
-  margin-top: 20px;
-  width: 16px;
-  background-color: #ffdbac;
-  border-radius: 2px;
-  margin-left: 20xp;
-  border-collapse: collapse;
-  border-style: outset;
-  border-color: black;
-}
-
-.prevent-select {
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.container {
-  height: 8%;
-}
-.navbar {
-  background-color: #c68642;
-  height: 5%;
-  display: flex;
-  align-items: center;
-  padding: 2%;
-  box-sizing: border-box;
-  border-radius: 15px;
-}
-
-#nav-heading {
-  font-size: larger;
-  color: white;
-  text-align: right;
-}
-
-.nav-menuIcon {
-  width: 100px;
-  cursor: pointer;
-  flex: 1;
-  text-align: left;
-  color: white;
-  font-size: larger;
-}
-
-#mainHeading {
-  display: none;
-}
+/* Description Modal styles */
 
 .close {
   color: #aaaaaa;
@@ -482,6 +477,187 @@ button:hover {
   cursor: pointer;
 }
 
+/* Apply Job Confirmation Modal */
+#applyJobConfirmationModal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 60px;
+}
+
+#applyJobConfirmationModal .modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 3px solid black;
+  width: 30%;
+}
+
+#applyJobConfirmationModal p {
+  padding-left: 10px;
+}
+
+#applyJobConfirmationModal .createModalitems {
+  position: relative;
+  right: 2px;
+  margin: 2px;
+}
+
+.applyJobConfirmationModalButtons {
+  padding-top: 10px;
+  padding-left: 80px;
+}
+
+.applyJobConfirmationModalHeading {
+  padding-left: 120px;
+}
+
+/* Revoke Job Confirmation Modal */
+
+#revokeJobConfirmationModal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 60px;
+}
+
+#revokeJobConfirmationModal .modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 3px solid black;
+  width: 30%;
+}
+
+#revokeJobConfirmationModal p {
+  padding-left: 10px;
+}
+
+#revokeJobConfirmationModal .createModalitems {
+  position: relative;
+  right: 2px;
+  margin: 2px;
+}
+
+.revokeJobConfirmationModalButtons {
+  padding-top: 10px;
+  padding-left: 80px;
+}
+
+.revokeJobConfirmationModalHeading {
+  padding-left: 55px;
+}
+
+/* Action column icons styles */
+.editIcon {
+  cursor: pointer;
+  padding: 3px;
+  margin-top: 2px;
+  background-color: #ffdbac;
+  border-radius: 2px;
+  margin-right: 2px;
+  border-collapse: collapse;
+  border-style: outset;
+  border-color: black;
+}
+
+.deleteIcon {
+  cursor: pointer;
+  padding: 3px;
+  margin-top: 5px;
+  width: 16px;
+  background-color: #ffdbac;
+  border-radius: 2px;
+  margin-left: 2xp;
+  border-collapse: collapse;
+  border-style: outset;
+  border-color: black;
+}
+
+.applyJobIcon {
+  cursor: pointer;
+  padding: 3px;
+  margin-top: 5px;
+  width: 53px;
+  border-radius: 2px;
+  margin-left: 2xp;
+  border-collapse: collapse;
+  border-style: outset;
+  border-color: black;
+  font-weight: 700;
+}
+
+.revokeJobIcon {
+  cursor: pointer;
+  padding: 3px;
+  margin-top: 5px;
+  width: 69px;
+  border-radius: 2px;
+  margin-left: 2xp;
+  border-collapse: collapse;
+  border-style: outset;
+  border-color: black;
+  font-weight: 600;
+}
+
+.editIcon:hover,
+.deleteIcon:hover,
+.applyJobIcon:hover,
+.revokeJobIcon:hover {
+  cursor: pointer;
+  color: grey;
+}
+
+.prevent-select {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#mainHeading {
+  display: none;
+}
+
+/* Navbar */
+
+.navbar-container {
+  height: 8%;
+}
+.navbar {
+  background-color: #c68642;
+  height: 5%;
+  display: flex;
+  align-items: center;
+  padding: 2%;
+  box-sizing: border-box;
+  border-radius: 15px;
+}
+
+#nav-heading {
+  font-size: larger;
+  color: white;
+  width: 99%;
+  text-align: left;
+}
+
+.nav-menuIcon {
+  cursor: pointer;
+  flex: 1;
+  text-align: right;
+  color: white;
+  font-size: larger;
+}
+
 .tooltiptext {
   visibility: hidden;
   font-size: small;
@@ -495,9 +671,8 @@ button:hover {
 
   position: absolute;
   z-index: 1;
-  top: 35px;
-  left: 57px;
-
+  top: 45px;
+  right: 50px;
   opacity: 0;
   transition: opacity 0.9s;
 }
@@ -505,4 +680,41 @@ button:hover {
 #logout-link:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+.permissibleScreen {
+  max-width: 1250px;
+  margin: 20px auto;
+  margin-top: 1px;
+}
+
+#tableContainerTopArea {
+  height: 10px;
+}
+
+#top-leftLabel {
+  position: relative;
+  background-color: #c68642;
+  left: 46.5px;
+  bottom: 10px;
+  max-width: 160px;
+  border-radius: 4px;
+}
+
+#top-leftLabelText {
+  font-family: monospace;
+  padding-left: 2px;
+  border-style: outset;
+  border-width: 2px;
+  border-bottom: none;
+  border-color: #000;
+  border-radius: 2.5px;
+}
+
+#top-leftLabelText:hover {
+  color: #0070e0;
+}
+
+#descriptionContent h2 {
+  text-align: center;
 }

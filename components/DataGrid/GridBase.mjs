@@ -11,28 +11,41 @@ gridBaseTemplate.innerHTML = `
       href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
     />
     
-    <div class="container ">
+    <div class="navbar-container">
     <div class="navbar">
     
-    <i class="fa-solid fa-power-off nav-menuIcon" id="logout-link"><span class="tooltiptext prevent-select">Log Out</span></i>
     
 
     <p id="nav-heading">Job Portal</p>
+    <i class="fa-solid fa-power-off nav-menuIcon" id="logout-link"><span class="tooltiptext prevent-select">Log Out</span></i>
+
     </div>
     </div>
     
     <div id="mainHeadingContainer" class="permissibleScreen">
     <h1 id="mainHeading"></h1>
     <div id="mH-buttons-container">
-      <button id="createBtn">Add Job Record 
+      <button id="createBtn">Add Job Position
 
       </button>
     </div>
+    <div id="statusfilter">
+    <i class="fas fa-bars" id="statusFilter-menuIcon"></i>
+    <div id="dropdown-menu" class="dropdown-menu">
+    <div><p id = "statusFilterDropdownHeading">Status Filter</p></div>
+    <a href="#" id="OpenJobsFilter">Open Jobs <i class="fa-solid fa-check statusFilterTickIcon" id="openJobFilterTick"></i></a>
+    <a href="#" id="ClosedJobsFilter">Closed Jobs <i class="fa-solid fa-check statusFilterTickIcon" id="closedJobFilterTick"></i></a>
+    <a href="#" id="Open&ClosedJobsFilter">Default <i class="fa-solid fa-check statusFilterTickIcon" id="defaultJobFilterTick"></i></a>
+
+    </div>
+</div>
   </div>
   <div id="nr-msg-container" class="permissibleScreen">
     <h1 id="nr-msg">No Job Opening</h1>
   </div>
+  <div id="tableContainerTopArea"><div id="top-leftLabel"><h3 id="top-leftLabelText">2011</h3></div></div>
   <div id="mn-tb-con" class="permissibleScreen">
+   
     <div id="table-container">
       <table id="employeeTable">
         <thead id="tableHead"></thead>
@@ -72,7 +85,7 @@ gridBaseTemplate.innerHTML = `
   </div>
 <div id="myModal" class="modal">
 <div class="modal-content">
-  <h2 class="createModalHeading">Enter Data</h2>
+  <h2 class="createModalHeading">Create Record</h2>
 
   <form id="modalForm">
     <div class="createModalFields">
@@ -135,12 +148,15 @@ gridBaseTemplate.innerHTML = `
         </label>
       </td>
       <td>
-        <input
-          type="text"
-          id="CreateModalExperienceLevel"
-          name="CreateModalExperienceLevel"
-          class="createModalitems"
-        /><br />
+      <select
+      id="CreateModalExperienceLevel"
+      name="CreateModalExperienceLevel"
+      class="createModalitems" >
+      <option value="">Select Experience</option>
+      <option value="Entry Level">Entry Level</option>
+      <option value="Mid Level">Mid Level</option>
+      <option value="Senior Level">Senior Level</option>
+    </select><br />
         <small id="cM-em-i-evm">Enter a valid exp </small>
       </td>
     </tr>
@@ -167,12 +183,14 @@ gridBaseTemplate.innerHTML = `
         </label>
       </td>
       <td>
-        <input
-          type="text"
-          id="CreateModalStatus"
-          name="CreateModalStatus"
-          class="createModalitems"
-        />
+      <select
+      id="CreateModalStatus"
+      name="CreateModalStatus"
+      class="createModalitems">
+      <option value="">Select Status</option>
+      <option value="Open">Open</option>
+      <option value="Closed">Closed</option>
+    </select>
       </td>
     </tr>
       </table>
@@ -250,12 +268,15 @@ gridBaseTemplate.innerHTML = `
             </label>
           </td>
           <td>
-            <input
-              type="text"
-              id="UpdateModalExperienceLevel"
-              name="UpdateModalExperienceLevel"
-              class="createModalitems"
-            />
+            <select
+            id="UpdateModalExperienceLevel"
+            name="UpdateModalExperienceLevel"
+            class="createModalitems">
+            <option value="">Select Experience Level</option>
+            <option value="Entry Level">Entry Level</option>
+            <option value="Mid Level">Mid Level</option>
+            <option value="Senior Level">Senior Level</option>
+          </select>
             <br />
             <small id="uM-em-i-evm">Enter a valid exp</small>
           </td>
@@ -284,12 +305,14 @@ gridBaseTemplate.innerHTML = `
             </label>
           </td>
           <td>
-            <input
-              type="text"
-              id="UpdateModalStatus"
-              name="UpdateModalStatus"
-              class="createModalitems"
-            />
+            <select
+            id="UpdateModalStatus"
+            name="UpdateModalStatus"
+            class="createModalitems">
+            <option value="">Select Status</option>
+            <option value="Open">Open</option>
+            <option value="Closed">Closed</option>
+          </select>
           </td>
         </tr>
       </table>
@@ -318,6 +341,26 @@ gridBaseTemplate.innerHTML = `
     <div id="descriptionContent"></div>
   </div>
 </div>
+<div id="applyJobConfirmationModal" class="modal">
+<div class="modal-content">
+  <h2 class="applyJobConfirmationModalHeading">Apply For job</h2>
+  <p id="applyJobConfirmationModalMessage"></p>
+  <div class="applyJobConfirmationModalButtons">
+    <button type="button" id="applyJobConfirmationModalConfirmBtn">Confirm</button>
+    <button type="button" id="applyJobConfirmationModalCancelBtn">Cancel</button>
+  </div>
+</div>
+</div>
+<div id="revokeJobConfirmationModal" class="modal">
+<div class="modal-content">
+  <h2 class="revokeJobConfirmationModalHeading">Withdraw Job Application</h2>
+  <p id="revokeJobConfirmationModalMessage"></p>
+  <div class="revokeJobConfirmationModalButtons">
+    <button type="button" id="revokeJobConfirmationModalConfirmBtn">Confirm</button>
+    <button type="button" id="revokeJobConfirmationModalCancelBtn">Cancel</button>
+  </div>
+</div>
+</div>
 `;
 
 class GridBase extends HTMLElement {
@@ -336,20 +379,25 @@ class GridBase extends HTMLElement {
     this.noRecordsMessageContainer = this.shadowRoot.getElementById("nr-msg");
     this.mainGridContainer = this.shadowRoot.getElementById("mn-tb-con");
     this.paginationBox = this.shadowRoot.getElementById("pagination-box");
+    this.tableContainerTopArea = this.shadowRoot.getElementById(
+      "tableContainerTopArea"
+    );
+    this.statusFilterMenuContainer =
+      this.shadowRoot.getElementById("statusfilter");
     const logoutLink = this.shadowRoot.getElementById("logout-link");
 
     this.mainGridContainer.style.display = "none";
     this.noRecordsMessageContainer.style.display = "none";
+    this.tableContainerTopArea.style.display = "none";
+    // this.statusFilterMenuContainer.style.visibility = "hidden";
 
     // Retrieved attributes
     const mainHeading = this.getAttribute("main-heading") || "Job Info Portal";
-    const columnHeadings = JSON.parse(this.getAttribute("columns")) || [];
+    let columnHeadings = JSON.parse(this.getAttribute("columns")) || [];
     const sortFeature = this.getAttribute("sortFeature") || "false";
     const paginationFeature = this.getAttribute("paginationFeature") || "false";
     const userType = sessionStorage.getItem("userType") || "regular";
-    // const userType2 = sessionStorage.getItem("userType");
-    // console.log("gridBase", userType2);
-    // console.log("gridBase", userType);
+    const user = sessionStorage.getItem("userId");
 
     this.employeeTableColumns = [];
     this.employeeTableColumnsLabels = [];
@@ -362,16 +410,25 @@ class GridBase extends HTMLElement {
     this.sortingON = sortFeature.toLowerCase();
     this.paginationON = paginationFeature.toLowerCase();
     this.userClass = userType.toLowerCase();
+    this.userId = user;
+    this.recordsStatus = this.userClass === "regular" ? "open" : "";
 
+    if (this.userClass === "regular") {
+      columnHeadings = columnHeadings.filter(
+        (heading) => heading !== "Contact Person"
+      );
+    }
+
+    this.fetchDataAndPopulateTable();
+    this.dataFetch();
     this.setMainHeading(mainHeading);
     this.setUserView();
     this.setPaginationBox();
     this.setColumnsHeading(columnHeadings);
-    this.fetchDataAndPopulateTable();
-    this.dataFetch();
+
     // this.testing();
 
-    //header
+    //navbar
     logoutLink.addEventListener("click", () => this.logout());
 
     // Bind event listeners pagation
@@ -430,6 +487,48 @@ class GridBase extends HTMLElement {
       this.submitDeleteModalFunc(event)
     );
 
+    //Apply For Job Confirmation Modal
+
+    this.applyForJobConfirmationModal = this.shadowRoot.getElementById(
+      "applyJobConfirmationModal"
+    );
+
+    this.applyForJobModalConfirmBtn = this.shadowRoot.getElementById(
+      "applyJobConfirmationModalConfirmBtn"
+    );
+    this.applyForJobModalCancelBtn = this.shadowRoot.getElementById(
+      "applyJobConfirmationModalCancelBtn"
+    );
+
+    this.applyForJobModalCancelBtn.addEventListener("click", () =>
+      this.closeApplyForJobConfirmationModal()
+    );
+
+    this.applyForJobModalConfirmBtn.addEventListener("click", () =>
+      this.applyForJob()
+    );
+
+    //Revoke For Job Confirmation Modal
+
+    this.revokeForJobConfirmationModal = this.shadowRoot.getElementById(
+      "revokeJobConfirmationModal"
+    );
+
+    this.revokeForJobModalConfirmBtn = this.shadowRoot.getElementById(
+      "revokeJobConfirmationModalConfirmBtn"
+    );
+    this.revokeForJobModalCancelBtn = this.shadowRoot.getElementById(
+      "revokeJobConfirmationModalCancelBtn"
+    );
+
+    this.revokeForJobModalCancelBtn.addEventListener("click", () =>
+      this.closeRevokeForJobConfirmationModal()
+    );
+
+    this.revokeForJobModalConfirmBtn.addEventListener("click", () =>
+      this.revokeForJob()
+    );
+
     //DescriptionModal
 
     this.descriptionModalCloseBtn = this.shadowRoot.getElementById(
@@ -438,6 +537,41 @@ class GridBase extends HTMLElement {
 
     this.descriptionModalCloseBtn.addEventListener("click", () =>
       this.closeDescriptionModal()
+    );
+
+    //stataus-Filter requirement
+
+    const menuIcon = this.shadowRoot.querySelector("#statusFilter-menuIcon");
+    const dropdownMenu = this.shadowRoot.getElementById("dropdown-menu");
+    const statusFilterOpenJobOption =
+      this.shadowRoot.getElementById("OpenJobsFilter");
+    const statusFilterClosedJobOption =
+      this.shadowRoot.getElementById("ClosedJobsFilter");
+    const statusFilterOpenAndClosedJobOption = this.shadowRoot.getElementById(
+      "Open&ClosedJobsFilter"
+    );
+
+    menuIcon.addEventListener("click", function () {
+      dropdownMenu.style.display =
+        dropdownMenu.style.display === "block" ? "none" : "block";
+    });
+
+    this.shadowRoot.addEventListener("click", function (e) {
+      if (!menuIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.style.display = "none";
+      }
+    });
+
+    statusFilterOpenJobOption.addEventListener("click", () =>
+      this.setStatusFilterMenuIcon("open")
+    );
+
+    statusFilterClosedJobOption.addEventListener("click", () =>
+      this.setStatusFilterMenuIcon("closed")
+    );
+
+    statusFilterOpenAndClosedJobOption.addEventListener("click", () =>
+      this.setStatusFilterMenuIcon("both")
     );
   }
 
@@ -449,30 +583,70 @@ class GridBase extends HTMLElement {
     const sortInfo = {
       name: "LASTNAME",
       order: "DESC",
+      userType: this.userClass,
+      userId: this.userId,
+      status: this.recordsStatus,
     };
     const response = await utils.postJson("job/search", sortInfo);
     const data = await response.json();
     console.log(data);
   }
 
-  // toggleMenuIcon() {
-  //   const dropdownMenu = this.shadowRoot.getElementById("dropdown-menu");
-
-  //   dropdownMenu.style.display =
-  //     dropdownMenu.style.display === "block" ? "none" : "block";
-  // }
-
   logout() {
-    // Perform logout logic here
     sessionStorage.clear();
+    this.dispatchEvent(
+      new CustomEvent("logout", {
+        bubbles: true,
+        composed: true,
+      })
+    );
     window.location.href = "../../index.html";
+    // setTimeout(() => {}, 800);
   }
 
   setUserView() {
     const addButtonContainer = this.shadowRoot.getElementById(
-      "mH-buttons-container"
+      "mainHeadingContainer"
     );
-    if (this.userClass !== "admin") addButtonContainer.style.display = "none";
+    if (this.userClass !== "admin")
+      addButtonContainer.style.visibility = "hidden";
+  }
+
+  async setStatusFilterMenuIcon(status) {
+    const menuIcon = this.shadowRoot.querySelector("#statusFilter-menuIcon");
+    const dropdownMenu = this.shadowRoot.getElementById("dropdown-menu");
+    const openOptionTickIcon =
+      this.shadowRoot.getElementById("openJobFilterTick");
+    const closedOptionTickIcon = this.shadowRoot.getElementById(
+      "closedJobFilterTick"
+    );
+    const defaultOptionTickIcon = this.shadowRoot.getElementById(
+      "defaultJobFilterTick"
+    );
+
+    openOptionTickIcon.style.visibility = "hidden";
+    closedOptionTickIcon.style.visibility = "hidden";
+    defaultOptionTickIcon.style.visibility = "hidden";
+    menuIcon.classList.remove("fa-bars");
+    menuIcon.classList.remove("fa-grip-lines-vertical");
+    if (status.toLowerCase() === "open") {
+      menuIcon.classList.add("fa-grip-lines-vertical");
+      openOptionTickIcon.style.visibility = "visible";
+      this.recordsStatus = "open";
+    } else if (status.toLowerCase() === "closed") {
+      menuIcon.classList.add("fa-grip-lines-vertical");
+      closedOptionTickIcon.style.visibility = "visible";
+      this.recordsStatus = "closed";
+    } else {
+      menuIcon.classList.add("fa-bars");
+      defaultOptionTickIcon.style.visibility = "visible";
+      this.recordsStatus = "";
+    }
+
+    dropdownMenu.style.display = "none";
+    await this.dataFetch();
+    // this.fetchDataAndPopulateTable();
+    this.populateTable();
   }
 
   setPaginationBox() {
@@ -503,25 +677,46 @@ class GridBase extends HTMLElement {
     this.employeeTableColumnsLabels = [...columnHeadings];
   }
 
+  setRecordsCountLabel(numRecords) {
+    const labelText = this.shadowRoot.getElementById("top-leftLabelText");
+    if (numRecords === "") {
+      labelText.innerText = `Job Positions : 0`;
+    } else {
+      labelText.innerText = `Job Positions : ${numRecords}`;
+    }
+  }
+
   async dataFetch() {
     try {
       const orderBy = this.sortAscending === true ? "ASC" : "DESC";
       const sortInfo = {
         name: this.sortField,
         order: orderBy,
+        userType: this.userClass,
+        userId: this.userId,
+        status: this.recordsStatus,
       };
       const response = await utils.postJson("job/search", sortInfo);
       let data = await response.json();
-      // const response2 = await utils.getJson("checkDB");
-      // const numRecordsData = await response2.json();
+
       const numRecords = data.length;
       if (numRecords === 0) {
         this.mainGridContainer.style.display = "none";
         this.noRecordsMessageContainer.style.display = "block";
+        this.tableContainerTopArea.style.display = "none";
+        // this.statusFilterMenuContainer.style.visibility = "hidden";
       } else {
         this.noRecordsMessageContainer.style.display = "none";
         this.mainGridContainer.style.display = "block";
+        this.tableContainerTopArea.style.display = "block";
+        // if (this.userClass === "admin")
+        //   this.statusFilterMenuContainer.style.visibility = "visible";
+
+        if (numRecords < 11) this.paginationON = "false";
+        else this.paginationON = "true";
       }
+      this.setPaginationBox();
+      this.setRecordsCountLabel(numRecords);
       this.oldData = [...data];
       this.data = [...data];
     } catch (error) {
@@ -536,6 +731,9 @@ class GridBase extends HTMLElement {
       const sortInfo = {
         name: this.sortField,
         order: orderBy,
+        userType: this.userClass,
+        userId: this.userId,
+        status: this.recordsStatus,
       };
       const response = await utils.postJson("job/search", sortInfo);
       const data = await response.json();
@@ -615,20 +813,44 @@ class GridBase extends HTMLElement {
         const cell = document.createElement("td");
         cell.textContent = employee[column];
         if (column === "JOBID") {
-          cell.addEventListener("click", () =>
-            this.openDescriptionModal(employee)
-          );
+          this.userClass === "admin"
+            ? cell.addEventListener("click", () =>
+                this.openUpdateModal(employee)
+              )
+            : cell.addEventListener("click", () =>
+                this.openDescriptionModal(employee)
+              );
           cell.classList.add("descCell");
         }
+
+        if (this.userClass === "regular" && column === "STATUS") {
+          cell.textContent = "";
+          const div = document.createElement("div");
+          div.textContent = employee[column];
+
+          if (employee[column] === "APPLY") {
+            div.classList.add("applyJobIcon");
+            div.addEventListener("click", () =>
+              this.openApplyForJobConfirmationModal(employee["JOBID"])
+            );
+          } else {
+            div.classList.add("revokeJobIcon");
+            div.addEventListener("click", () =>
+              this.openRevokeForJobConfirmationModal(employee["JOBID"])
+            );
+          }
+          cell.appendChild(div);
+        }
+
         row.appendChild(cell);
       });
 
       const actionCell = document.createElement("td");
 
-      const editIcon = document.createElement("i");
-      editIcon.classList.add("fa-solid", "fa-pen", "editIcon");
-      editIcon.addEventListener("click", () => this.openUpdateModal(employee));
-      actionCell.appendChild(editIcon);
+      // const editIcon = document.createElement("i");
+      // editIcon.classList.add("fa-solid", "fa-pen", "editIcon");
+      // editIcon.addEventListener("click", () => this.openUpdateModal(employee));
+      // actionCell.appendChild(editIcon);
 
       const deleteIcon = document.createElement("i");
       deleteIcon.classList.add("fa-solid", "fa-trash-can", "deleteIcon");
@@ -662,12 +884,14 @@ class GridBase extends HTMLElement {
       const sortInfo = {
         name: this.sortField,
         order: orderBy,
+        userType: this.userClass,
+        userId: this.userId,
+        status: this.recordsStatus,
       };
       const response = await utils.postJson("job/search", sortInfo);
       const data = await response.json();
       this.data = [...data];
       this.populateTable();
-      console.log("sortRecords", data);
     } catch (error) {
       console.log(error);
     }
@@ -799,6 +1023,9 @@ class GridBase extends HTMLElement {
       const sortInfo = {
         name: this.sortField,
         order: orderBy,
+        userType: this.userClass,
+        userId: this.userId,
+        status: this.recordsStatus,
       };
       const response = await utils.postJson("job/search", sortInfo);
       const data = await response.json();
@@ -831,9 +1058,15 @@ class GridBase extends HTMLElement {
 
   clearCreateModalInput() {
     const createForm = this.shadowRoot.getElementById("modalForm");
+
     const createFormInput = createForm.querySelectorAll("input");
     createFormInput.forEach((input) => {
       input.value = "";
+    });
+
+    const createFormSelect = createForm.querySelectorAll("select");
+    createFormSelect.forEach((select) => {
+      select.selectedIndex = 0;
     });
     this.Createmodal.style.display = "none";
   }
@@ -946,6 +1179,39 @@ class GridBase extends HTMLElement {
 
   //Update Modal
 
+  disableUpdateModal(value) {
+    if (value.toLowerCase() === "true") {
+      this.shadowRoot.getElementById("UpdateModalJobTitle").disabled = value;
+      this.shadowRoot.getElementById("UpdateModalLocation").disabled = value;
+      this.shadowRoot.getElementById("UpdateModalExperienceLevel").disabled =
+        value;
+      this.shadowRoot.getElementById("UpdateModalContactPerson").disabled =
+        value;
+      this.shadowRoot.getElementById("UpdateModalStatus").disabled = value;
+      this.shadowRoot.getElementById("submitUpdateModal").style.display =
+        "none";
+    } else {
+      this.shadowRoot
+        .getElementById("UpdateModalJobTitle")
+        .removeAttribute("disabled");
+      this.shadowRoot
+        .getElementById("UpdateModalLocation")
+        .removeAttribute("disabled");
+
+      this.shadowRoot
+        .getElementById("UpdateModalExperienceLevel")
+        .removeAttribute("disabled");
+      this.shadowRoot
+        .getElementById("UpdateModalContactPerson")
+        .removeAttribute("disabled");
+      this.shadowRoot
+        .getElementById("UpdateModalStatus")
+        .removeAttribute("disabled");
+      this.shadowRoot.getElementById("submitUpdateModal").style.display =
+        "inline-block";
+    }
+  }
+
   openUpdateModal(employee) {
     this.shadowRoot.getElementById("UpdateModalJobId").value = employee.JOBID;
     this.shadowRoot.getElementById("UpdateModalJobTitle").value =
@@ -957,6 +1223,10 @@ class GridBase extends HTMLElement {
     this.shadowRoot.getElementById("UpdateModalContactPerson").value =
       employee.CONTACTPERSON;
     this.shadowRoot.getElementById("UpdateModalStatus").value = employee.STATUS;
+
+    if (employee.STATUS.toLowerCase() === "closed")
+      this.disableUpdateModal("true");
+    else this.disableUpdateModal("false");
 
     this.updateModal.style.display = "block";
   }
@@ -1071,18 +1341,20 @@ class GridBase extends HTMLElement {
     // const record = this.data.find(
     //   (employee) => employee.EMPLOYEEID === employeeId
     // );
-    console.log("openDesc", employee);
+    // console.log("openDesc", employee);
     const record = employee;
+
+    const statusValue = record.STATUS === "APPLY" ? "Not Applied" : "Applied";
 
     // Populate modal content
     if (record) {
       descriptionContent.innerHTML = `
-        <h2>Job ID: ${record.JOBID}</h2>
+        <h2>Job Description</h2>
+        <p>Job ID: ${record.JOBID}</p>
         <p>Job Title: ${record.JOBTITLE}</p>
         <p>Location : ${record.LOCATION} 
         <p>Experience Level: ${record.EXPERIENCELEVEL}</p>
-        <p>Contact Person: ${record.CONTACTPERSON}</p>
-        <p>Status: ${record.STATUS}</p>
+        <p>Status: ${statusValue}</p>
       `;
 
       descriptionModal.style.display = "block";
@@ -1095,6 +1367,90 @@ class GridBase extends HTMLElement {
     const descriptionModal = this.shadowRoot.getElementById("descriptionModal");
     descriptionModal.style.display = "none";
     descriptionContent.innerHTML = "";
+  }
+
+  //Appply Job Confirmation Modal
+
+  openApplyForJobConfirmationModal(jobId) {
+    this.shadowRoot.getElementById(
+      "applyJobConfirmationModalMessage"
+    ).textContent = `Are you sure you want to proceed with applying for the job associated with Job ID ${jobId}`;
+    this.applyForJobConfirmationModal.style.display = "block";
+  }
+
+  closeApplyForJobConfirmationModal() {
+    this.applyForJobConfirmationModal.style.display = "none";
+  }
+
+  async applyForJob() {
+    try {
+      const JOBID = this.shadowRoot
+        .getElementById("applyJobConfirmationModalMessage")
+        .textContent.split(" ")
+        .pop();
+
+      const response = await utils.postJson(`job/apply`, {
+        userid: this.userId,
+        jobid: JOBID,
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        services.infoNotifying("Job application applied successful");
+        await this.dataFetch();
+        this.populateTable();
+        this.applyForJobConfirmationModal.style.display = "none";
+      } else {
+        services.errorNotifying("Error applying for job");
+        this.applyForJobConfirmationModal.style.display = "none";
+      }
+    } catch (error) {
+      console.error("Error applying for job:", error);
+      services.errorNotifying("Error applying for job");
+      this.applyForJobConfirmationModal.style.display = "none";
+    }
+  }
+
+  //Revoke Job Confirmation Modal
+
+  openRevokeForJobConfirmationModal(jobId) {
+    this.shadowRoot.getElementById(
+      "revokeJobConfirmationModalMessage"
+    ).textContent = `Are you sure you want to proceed with withdrawing the job application associated with Job ID ${jobId}`;
+    this.revokeForJobConfirmationModal.style.display = "block";
+  }
+
+  closeRevokeForJobConfirmationModal() {
+    this.revokeForJobConfirmationModal.style.display = "none";
+  }
+
+  async revokeForJob() {
+    try {
+      const JOBID = this.shadowRoot
+        .getElementById("revokeJobConfirmationModalMessage")
+        .textContent.split(" ")
+        .pop();
+
+      const revokeInfo = {
+        userid: this.userId,
+        jobid: JOBID,
+      };
+      const response = await utils.postJson(`job/revoke`, revokeInfo);
+      const result = await response.json();
+      if (result.success) {
+        services.infoNotifying("Job application revoked successful");
+        await this.dataFetch();
+        this.populateTable();
+        this.revokeForJobConfirmationModal.style.display = "none";
+      } else {
+        services.errorNotifying("Error reevoking job application");
+        this.revokeForJobConfirmationModal.style.display = "none";
+      }
+    } catch (error) {
+      console.error("Error reevoking job application:", error);
+      services.errorNotifying("Error reevoking job application");
+      this.revokeForJobConfirmationModal.style.display = "none";
+    }
   }
 }
 
