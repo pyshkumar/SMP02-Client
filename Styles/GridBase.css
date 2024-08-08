@@ -16,18 +16,26 @@
 }
 
 #mH-buttons-container {
-  width: 1000px;
+  width: 900px;
   height: 50px;
   text-align: center;
   margin-bottom: 20px;
-  margin-top: 15px;
+  margin-top: 18px;
+}
+
+#recordFilter {
+  width: 150px;
 }
 
 #statusfilter {
-  /* position: relative;
-  left: 400px; */
-  width: 100px;
-  text-align: right;
+  width: 200px;
+  text-align: left;
+  visibility: visible;
+}
+
+#createBtnContainer {
+  width: 200px;
+  padding-left: 440px;
 }
 
 .statusFilterTickIcon {
@@ -54,6 +62,7 @@
 #statusFilter-menuIcon {
   color: black;
   font-size: larger;
+  padding-left: 20px;
   /* padding: 6px;
   margin-top: 5px;
   width: 16px;
@@ -319,7 +328,7 @@ button:hover {
 }
 
 .createModalHeading {
-  padding-left: 100px;
+  padding-left: 87px;
 }
 
 /* Update Modal styles */
@@ -559,6 +568,10 @@ button:hover {
 }
 
 /* Action column icons styles */
+#action_column {
+  opacity: 0.5;
+  overflow: hidden;
+}
 .editIcon {
   cursor: pointer;
   padding: 3px;
@@ -569,6 +582,20 @@ button:hover {
   border-collapse: collapse;
   border-style: outset;
   border-color: black;
+}
+
+.deleteIconDisabled {
+  opacity: 0.5;
+  padding: 3px;
+  margin-top: 5px;
+  width: 16px;
+  background-color: #ffdbac;
+  border-radius: 2px;
+  margin-left: 2xp;
+  border-collapse: collapse;
+  border-style: outset;
+  border-color: black;
+  padding-right: 1.2px;
 }
 
 .deleteIcon {
@@ -582,6 +609,7 @@ button:hover {
   border-collapse: collapse;
   border-style: outset;
   border-color: black;
+  padding-right: 1.2px;
 }
 
 .applyJobIcon {
@@ -690,13 +718,14 @@ button:hover {
 
 #tableContainerTopArea {
   height: 10px;
+  display: inline-block;
 }
 
 #top-leftLabel {
   position: relative;
-  background-color: #c68642;
   left: 46.5px;
   bottom: 10px;
+  background-color: #c68642;
   max-width: 160px;
   border-radius: 4px;
 }
@@ -717,4 +746,28 @@ button:hover {
 
 #descriptionContent h2 {
   text-align: center;
+}
+
+#top-rightLabel {
+  position: relative;
+
+  left: 40px;
+  bottom: 10px;
+  background-color: #c68642;
+  max-width: 50px;
+  border-radius: 4px;
+}
+
+#top-rightLabelText {
+  font-family: monospace;
+  padding-left: 2px;
+  border-style: outset;
+  border-width: 2px;
+  border-bottom: none;
+  border-color: #000;
+  border-radius: 2.5px;
+}
+
+#top-rightLabelText:hover {
+  color: #0070e0;
 }

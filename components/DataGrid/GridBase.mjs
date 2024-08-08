@@ -22,29 +22,47 @@ gridBaseTemplate.innerHTML = `
     </div>
     </div>
     
-    <div id="mainHeadingContainer" class="permissibleScreen">
+  <div id="mainHeadingContainer" class="permissibleScreen">
     <h1 id="mainHeading"></h1>
     <div id="mH-buttons-container">
+    <div id="createBtnContainer">
       <button id="createBtn">Add Job Position
-
       </button>
     </div>
-    <div id="statusfilter">
-    <i class="fas fa-bars" id="statusFilter-menuIcon"></i>
-    <div id="dropdown-menu" class="dropdown-menu">
-    <div><p id = "statusFilterDropdownHeading">Status Filter</p></div>
-    <a href="#" id="OpenJobsFilter">Open Jobs <i class="fa-solid fa-check statusFilterTickIcon" id="openJobFilterTick"></i></a>
-    <a href="#" id="ClosedJobsFilter">Closed Jobs <i class="fa-solid fa-check statusFilterTickIcon" id="closedJobFilterTick"></i></a>
-    <a href="#" id="Open&ClosedJobsFilter">Default <i class="fa-solid fa-check statusFilterTickIcon" id="defaultJobFilterTick"></i></a>
-
     </div>
-</div>
+      <div id="recordFilter">
+      <div class="page-size">
+        <label for="pageSize">Page size</label>
+        <select id="pageSize">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+      </div>
+      
+    <div id="statusfilter">
+     <i class="fas fa-bars" id="statusFilter-menuIcon"></i>
+     <div id="dropdown-menu" class="dropdown-menu">
+     <div><p id = "statusFilterDropdownHeading">Status Filter</p></div>
+     <a href="#" id="OpenJobsFilter">Open Jobs <i class="fa-solid fa-check statusFilterTickIcon" id="openJobFilterTick"></i></a>
+     <a href="#" id="ClosedJobsFilter">Closed Jobs <i class="fa-solid fa-check statusFilterTickIcon" id="closedJobFilterTick"></i></a>
+     <a href="#" id="Open&ClosedJobsFilter">Default <i class="fa-solid fa-check statusFilterTickIcon" id="defaultJobFilterTick"></i></a>
+    </div>
+
+  </div>
   </div>
   <div id="nr-msg-container" class="permissibleScreen">
     <h1 id="nr-msg">No Job Opening</h1>
   </div>
-  <div id="tableContainerTopArea"><div id="top-leftLabel"><h3 id="top-leftLabelText">2011</h3></div></div>
+  
+  <div id="tableContainerTopArea">
+  <div id="top-leftLabel"><h3 id="top-leftLabelText">0</h3></div>
+  </div>
+ 
+
   <div id="mn-tb-con" class="permissibleScreen">
+  
    
     <div id="table-container">
       <table id="employeeTable">
@@ -53,14 +71,6 @@ gridBaseTemplate.innerHTML = `
       </table>
     </div>
     <div id="pagination-box">
-      <div class="page-size">
-        <label for="pageSize">Page size:</label>
-        <select id="pageSize">
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-        </select>
-      </div>
       <div class="page-info">
         <span id="pagesStatus"></span>
       </div>
@@ -426,8 +436,6 @@ class GridBase extends HTMLElement {
     this.setPaginationBox();
     this.setColumnsHeading(columnHeadings);
 
-    // this.testing();
-
     //navbar
     logoutLink.addEventListener("click", () => this.logout());
 
@@ -488,7 +496,6 @@ class GridBase extends HTMLElement {
     );
 
     //Apply For Job Confirmation Modal
-
     this.applyForJobConfirmationModal = this.shadowRoot.getElementById(
       "applyJobConfirmationModal"
     );
@@ -509,7 +516,6 @@ class GridBase extends HTMLElement {
     );
 
     //Revoke For Job Confirmation Modal
-
     this.revokeForJobConfirmationModal = this.shadowRoot.getElementById(
       "revokeJobConfirmationModal"
     );
@@ -530,7 +536,6 @@ class GridBase extends HTMLElement {
     );
 
     //DescriptionModal
-
     this.descriptionModalCloseBtn = this.shadowRoot.getElementById(
       "closeDescriptionModal"
     );
@@ -539,8 +544,7 @@ class GridBase extends HTMLElement {
       this.closeDescriptionModal()
     );
 
-    //stataus-Filter requirement
-
+    //status-Filter requirement
     const menuIcon = this.shadowRoot.querySelector("#statusFilter-menuIcon");
     const dropdownMenu = this.shadowRoot.getElementById("dropdown-menu");
     const statusFilterOpenJobOption =
@@ -579,18 +583,18 @@ class GridBase extends HTMLElement {
     console.log("GridBase connected to the DOM!");
   }
 
-  async testing() {
-    const sortInfo = {
-      name: "LASTNAME",
-      order: "DESC",
-      userType: this.userClass,
-      userId: this.userId,
-      status: this.recordsStatus,
-    };
-    const response = await utils.postJson("job/search", sortInfo);
-    const data = await response.json();
-    console.log(data);
-  }
+  // async testing() {
+  //   const sortInfo = {
+  //     name: "LASTNAME",
+  //     order: "DESC",
+  //     userType: this.userClass,
+  //     userId: this.userId,
+  //     status: this.recordsStatus,
+  //   };
+  //   const response = await utils.postJson("job/search", sortInfo);
+  //   const data = await response.json();
+  //   console.log(data);
+  // }
 
   logout() {
     sessionStorage.clear();
@@ -601,15 +605,20 @@ class GridBase extends HTMLElement {
       })
     );
     window.location.href = "../../index.html";
-    // setTimeout(() => {}, 800);
   }
 
   setUserView() {
-    const addButtonContainer = this.shadowRoot.getElementById(
-      "mainHeadingContainer"
-    );
-    if (this.userClass !== "admin")
+    const addButtonContainer =
+      this.shadowRoot.getElementById("createBtnContainer");
+    const recordFilterContainer =
+      this.shadowRoot.getElementById("recordFilter");
+    const statusFilterContainer =
+      this.shadowRoot.getElementById("statusfilter");
+
+    if (this.userClass !== "admin") {
       addButtonContainer.style.visibility = "hidden";
+      statusFilterContainer.style.visibility = "hidden";
+    }
   }
 
   async setStatusFilterMenuIcon(status) {
@@ -629,6 +638,7 @@ class GridBase extends HTMLElement {
     defaultOptionTickIcon.style.visibility = "hidden";
     menuIcon.classList.remove("fa-bars");
     menuIcon.classList.remove("fa-grip-lines-vertical");
+
     if (status.toLowerCase() === "open") {
       menuIcon.classList.add("fa-grip-lines-vertical");
       openOptionTickIcon.style.visibility = "visible";
@@ -645,12 +655,14 @@ class GridBase extends HTMLElement {
 
     dropdownMenu.style.display = "none";
     await this.dataFetch();
-    // this.fetchDataAndPopulateTable();
     this.populateTable();
   }
 
-  setPaginationBox() {
+  async setPaginationBox() {
+    if (this.recordsPerPage < this.data.length) this.paginationON = "true";
+    else this.paginationON = "false";
     if (this.paginationON === "true") {
+      await this.updatePageInfo();
       this.paginationBox.style.display = "flex";
     } else {
       this.paginationBox.style.display = "none";
@@ -677,8 +689,9 @@ class GridBase extends HTMLElement {
     this.employeeTableColumnsLabels = [...columnHeadings];
   }
 
-  setRecordsCountLabel(numRecords) {
+  setRecordsCountLabel() {
     const labelText = this.shadowRoot.getElementById("top-leftLabelText");
+    const numRecords = this.data.length;
     if (numRecords === "") {
       labelText.innerText = `Job Positions : 0`;
     } else {
@@ -711,14 +724,12 @@ class GridBase extends HTMLElement {
         this.tableContainerTopArea.style.display = "block";
         // if (this.userClass === "admin")
         //   this.statusFilterMenuContainer.style.visibility = "visible";
-
-        if (numRecords < 11) this.paginationON = "false";
-        else this.paginationON = "true";
       }
-      this.setPaginationBox();
-      this.setRecordsCountLabel(numRecords);
+
       this.oldData = [...data];
       this.data = [...data];
+      this.setPaginationBox();
+      this.setRecordsCountLabel();
     } catch (error) {
       services.errorNotifying("404 Server Not Found");
       throw error;
@@ -788,13 +799,7 @@ class GridBase extends HTMLElement {
 
   populateTable() {
     const tableBody = this.shadowRoot.getElementById("tableBody");
-    // if (this.sortField.length !== 0) {
-    //   this.data.sort((a, b) =>
-    //     this.sortAscending
-    //       ? a[this.sortField].localeCompare(b[this.sortField])
-    //       : b[this.sortField].localeCompare(a[this.sortField])
-    //   );
-    // }
+
     var startIndex = 0;
     var endIndex = this.data.length;
 
@@ -853,10 +858,19 @@ class GridBase extends HTMLElement {
       // actionCell.appendChild(editIcon);
 
       const deleteIcon = document.createElement("i");
-      deleteIcon.classList.add("fa-solid", "fa-trash-can", "deleteIcon");
-      deleteIcon.addEventListener("click", () =>
-        this.openDeleteModal(employee.JOBID)
-      );
+      deleteIcon.classList.add("fa-solid", "fa-trash-can");
+      // deleteIcon.addEventListener("click", () =>
+      //   this.openDeleteModal(employee.JOBID)
+      // );
+      // console.log(employee["STATUS"]);
+
+      if (employee["STATUS"].toLowerCase() === "closed") {
+        deleteIcon.classList.add("deleteIcon");
+        deleteIcon.addEventListener("click", () =>
+          this.openDeleteModal(employee.JOBID)
+        );
+      } else deleteIcon.classList.add("deleteIconDisabled");
+
       actionCell.appendChild(deleteIcon);
 
       if (this.userClass === "admin") {
@@ -874,12 +888,6 @@ class GridBase extends HTMLElement {
 
   async sortRecords() {
     try {
-      // const response = await utils.postJson("sortRecords", {
-      //   columnName: sortCol,
-      //   sortOrder: sortOrder,
-      // });
-      // const newData = await response.json();
-
       const orderBy = this.sortAscending === true ? "ASC" : "DESC";
       const sortInfo = {
         name: this.sortField,
@@ -911,7 +919,6 @@ class GridBase extends HTMLElement {
       this.sortRecords();
       this.populateTable();
     }
-    // this.fetchDataAndPopulateTable();
   }
 
   updateIcons() {
@@ -981,7 +988,7 @@ class GridBase extends HTMLElement {
   changePageSize(event) {
     this.recordsPerPage = parseInt(event.target.value);
     this.currentPage = 1;
-    // this.fetchDataAndPopulateTable();
+    this.setPaginationBox();
     this.populateTable();
   }
 
@@ -1029,10 +1036,7 @@ class GridBase extends HTMLElement {
       };
       const response = await utils.postJson("job/search", sortInfo);
       const data = await response.json();
-      // const response = await utils.getJson("checkDB");
-      // const numRecordsData = await response.json();
-      // console.log("data1length", data1.length);
-      // console.log("numRecords", numRecordsData.numRecords);
+
       const numRecords = data.length;
       const offset =
         this.currentPage * this.recordsPerPage - this.recordsPerPage + 1;
@@ -1149,7 +1153,6 @@ class GridBase extends HTMLElement {
         console.log("Job Record added successfully");
         services.infoNotifying("Job Record added successfully");
         await this.dataFetch();
-        // this.fetchDataAndPopulateTable();
         this.populateTable();
         this.clearCreateModalInput();
       } else {
@@ -1258,7 +1261,6 @@ class GridBase extends HTMLElement {
         services.infoNotifying("Job record updated successfully");
         this.updateModal.style.display = "none";
         await this.dataFetch();
-        // this.fetchDataAndPopulateTable();
         this.populateTable();
       } else {
         console.error("Error updating data:", error);
@@ -1312,7 +1314,6 @@ class GridBase extends HTMLElement {
         services.infoNotifying("Job record deleted successfully");
         this.deleteModal.style.display = "none";
         await this.dataFetch();
-        // this.fetchDataAndPopulateTable();
         this.populateTable();
       } else {
         console.error("Failed to delete job record");
